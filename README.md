@@ -31,3 +31,4 @@
 $ sudo docker-compose up --build
 ```
 ### Коллекция api запросы на тестирования
+https://github.com/annamuratov1987/postservice/blob/main/Insomnia_2022-07-20
