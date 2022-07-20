@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+option go_package = ".;grpc";
+
+message LoaderResponse {
+  string status = 1;
+}
+
+service LoaderService {
+  rpc Start(google.protobuf.Empty) returns (LoaderResponse);
+  rpc Check(google.protobuf.Empty) returns (LoaderResponse);
+}
