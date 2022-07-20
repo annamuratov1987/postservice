@@ -1,0 +1,28 @@
+FROM golang:alpine AS builder
+
+RUN apk add --no-cache ca-certificates
+
+# Set the current working directory inside the container
+WORKDIR /go/src/github.com/annamuratov1987/postservice
+
+# Copy sources to the working directory
+COPY . .
+
+RUN go mod vendor
+
+# Build the binary
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o loader ./cmd/loader/main.go
+
+FROM alpine:latest
+
+# Set the current working directory inside the container
+WORKDIR /app
+
+RUN apk --no-cache add ca-certificates
+
+# Copy our static executable
+COPY --from=builder /go/src/github.com/annamuratov1987/postservice/loader .
+ADD configs ./configs
+
+# Run the app binary.
+CMD ./loader
